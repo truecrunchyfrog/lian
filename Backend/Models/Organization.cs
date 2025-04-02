@@ -7,14 +7,14 @@ namespace Backend.Models.Entities
     public int Id { get; set; }
     public required string Name { get; set; }
     public required string AdministratorEmail { get; set; }
-    public ICollection<InternshipPeriod> InternshipPeriods { get; set; } = [];
+    public ICollection<InternshipTerm> InternshipTerms { get; set; } = [];
     public required DateOnly Expiration { get; set; }
 
     public Dto.Organization ToDto() => new Dto.Organization
       {
         Id = Id,
         Name = Name,
-        InternshipPeriods = InternshipPeriods.Select(p => p.ToDto())
+        InternshipPeriods = InternshipTerms.Select(p => p.ToDto())
       };
   }
 }
@@ -25,6 +25,6 @@ namespace Backend.Models.Dto
   {
     public int Id { get; set; }
     public required string Name { get; set; }
-    public required IEnumerable<InternshipPeriod> InternshipPeriods { get; set; }
+    public required IEnumerable<InternshipTerm> InternshipPeriods { get; set; }
   }
 }
