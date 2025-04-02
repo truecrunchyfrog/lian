@@ -16,10 +16,14 @@ public class Program
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(opt => opt.CustomSchemaIds(type => type.ToString()));
 
+    builder.Services.AddCors(opt => opt.AddDefaultPolicy(policy => policy.AllowAnyOrigin()));
+
     var app = builder.Build();
 
     if (app.Environment.IsDevelopment())
     {
+      app.UseCors();
+
       app.UseSwagger();
       app.UseSwaggerUI();
     }
