@@ -1,5 +1,3 @@
-using Backend.Models.Dto;
-
 namespace Backend.Models.Entities
 {
   public class Organization : IntoDto<Dto.Organization>
