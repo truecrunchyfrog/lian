@@ -1,0 +1,122 @@
+:root {
+  --c-primary-1: #20b33d;
+  --c-primary-2: #2f8a41;
+  --c-primary-3: #35613e;
+
+  --c-secondary-1: #ff745a;
+  --c-secondary-2: #e2654f;
+  --c-secondary-3: #c65945;
+
+  --c-tertiary-1: #93b802;
+  --c-tertiary-2: #85a602;
+  --c-tertiary-3: #8bb102;
+
+  --c-white-1: #d0ffa1;
+  --c-white-2: #c1ee95;
+  --c-white-3: #aad184;
+
+  --c-black-1: #0a0f0b;
+  --c-black-2: #1a261c;
+  --c-black-3: #233326;
+}
+
+:root {
+  --color-background-1: var(--c-white-1);
+  --color-background-2: var(--c-white-2);
+  --color-background-3: var(--c-white-3);
+
+  --color-border: var(--c-white-3);
+  --color-border-hover: var(--c-white-2);
+
+  --color-heading: var(--c-black-2);
+  --color-text: var(--c-black-3);
+
+  --color-link-1: var(--c-secondary-1);
+  --color-link-2: var(--c-secondary-2);
+
+  --color-button-1: var(--c-tertiary-1);
+  --color-button-2: var(--c-tertiary-3);
+  --color-button-text: var(--c-black-3);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background-1: var(--c-black-1);
+    --color-background-2: var(--c-black-2);
+    --color-background-3: var(--c-black-3);
+
+    --color-border: var(--c-black-3);
+    --color-border-hover: var(--c-black-2);
+
+    --color-heading: var(--c-white-2);
+    --color-text: var(--c-white-3);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: RadioCanadaBig;
+  src: url('/src/assets/fonts/Radio_Canada_Big/RadioCanadaBig-VariableFont_wght.ttf');
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background-2);
+  line-height: 1.6;
+  font-family:
+    RadioCanadaBig,
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 1.3rem;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-heading);
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-link-1);
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    color: var(--color-link-2);
+  }
+}
+
+.button {
+  padding: .3rem 1em;
+
+  background: var(--color-button-1);
+  border: 1pt solid var(--color-button-2);
+  border-radius: 6pt;
+
+  color: var(--color-button-text);
+  font-family: inherit;
+  font-size: 1.5rem;
+
+  cursor: pointer;
+}
