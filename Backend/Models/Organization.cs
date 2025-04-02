@@ -7,7 +7,7 @@ namespace Backend.Models.Entities
     public int Id { get; set; }
     public required string Name { get; set; }
     public required string AdministratorEmail { get; set; }
-    public required ICollection<InternshipPeriod> InternshipPeriods { get; set; }
+    public ICollection<InternshipPeriod> InternshipPeriods { get; set; } = [];
     public required DateOnly Expiration { get; set; }
 
     public Dto.Organization ToDto() => new Dto.Organization
