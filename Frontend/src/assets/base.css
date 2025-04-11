@@ -37,6 +37,9 @@
   --color-button-1: var(--c-tertiary-1);
   --color-button-2: var(--c-tertiary-3);
   --color-button-text: var(--c-black-3);
+
+  --color-input-1: var(--c-white-3);
+  --color-input-2: var(--c-white-2);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -50,6 +53,9 @@
 
     --color-heading: var(--c-white-2);
     --color-text: var(--c-white-3);
+
+    --color-input-1: var(--c-white-1);
+    --color-input-2: var(--c-white-2);
   }
 }
 
@@ -107,16 +113,26 @@ a {
   }
 }
 
-.button {
-  padding: .3rem 1em;
-
-  background: var(--color-button-1);
-  border: 1pt solid var(--color-button-2);
+.button, .input {
+  padding: .4rem 1em;
+  border: none;
   border-radius: 6pt;
-
-  color: var(--color-button-text);
   font-family: inherit;
   font-size: 1.5rem;
+}
+
+.button {
+  background: var(--color-button-1);
+
+  color: var(--color-button-text);
 
   cursor: pointer;
+}
+
+.input {
+  max-width: 100%;
+  padding-left: 1em;
+  padding-right: 1em;
+
+  background: var(--color-input-1);
 }
