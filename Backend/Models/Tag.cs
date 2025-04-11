@@ -10,7 +10,7 @@ namespace Backend.Models.Entities
       {
         Id = Id,
         Name = Name,
-        TermsWithTag = InternshipTerms.Where(t => t.IsRelevant).Count()
+        TermsWithTag = InternshipTerms.Where(it => it.IsRelevant).Count()
       };
   }
 }

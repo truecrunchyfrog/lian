@@ -26,7 +26,7 @@ namespace Backend.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("InternshipPeriodId")
+                    b.Property<int?>("InternshipTermId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Method")
@@ -38,12 +38,12 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InternshipPeriodId");
+                    b.HasIndex("InternshipTermId");
 
                     b.ToTable("Contact");
                 });
 
-            modelBuilder.Entity("Backend.Models.Entities.InternshipPeriod", b =>
+            modelBuilder.Entity("Backend.Models.Entities.InternshipTerm", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,7 +52,7 @@ namespace Backend.Migrations
                     b.Property<int>("ApplicationPeriodId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("OrganizationId")
+                    b.Property<int>("OrganizationId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("PracticePeriodId")
@@ -66,7 +66,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("PracticePeriodId");
 
-                    b.ToTable("InternshipPeriods");
+                    b.ToTable("InternshipTerms");
                 });
 
             modelBuilder.Entity("Backend.Models.Entities.Organization", b =>
@@ -108,14 +108,44 @@ namespace Backend.Migrations
                     b.ToTable("Period");
                 });
 
-            modelBuilder.Entity("Backend.Models.Entities.Contact", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Tag", b =>
                 {
-                    b.HasOne("Backend.Models.Entities.InternshipPeriod", null)
-                        .WithMany("Contacts")
-                        .HasForeignKey("InternshipPeriodId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Backend.Models.Entities.InternshipPeriod", b =>
+            modelBuilder.Entity("InternshipTermTag", b =>
+                {
+                    b.Property<int>("InternshipTermsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TagsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("InternshipTermsId", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("InternshipTermTag");
+                });
+
+            modelBuilder.Entity("Backend.Models.Entities.Contact", b =>
+                {
+                    b.HasOne("Backend.Models.Entities.InternshipTerm", null)
+                        .WithMany("Contacts")
+                        .HasForeignKey("InternshipTermId");
+                });
+
+            modelBuilder.Entity("Backend.Models.Entities.InternshipTerm", b =>
                 {
                     b.HasOne("Backend.Models.Entities.Period", "ApplicationPeriod")
                         .WithMany()
@@ -123,9 +153,11 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend.Models.Entities.Organization", null)
-                        .WithMany("InternshipPeriods")
-                        .HasForeignKey("OrganizationId");
+                    b.HasOne("Backend.Models.Entities.Organization", "Organization")
+                        .WithMany("InternshipTerms")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Backend.Models.Entities.Period", "PracticePeriod")
                         .WithMany()
@@ -135,17 +167,34 @@ namespace Backend.Migrations
 
                     b.Navigation("ApplicationPeriod");
 
+                    b.Navigation("Organization");
+
                     b.Navigation("PracticePeriod");
                 });
 
-            modelBuilder.Entity("Backend.Models.Entities.InternshipPeriod", b =>
+            modelBuilder.Entity("InternshipTermTag", b =>
+                {
+                    b.HasOne("Backend.Models.Entities.InternshipTerm", null)
+                        .WithMany()
+                        .HasForeignKey("InternshipTermsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend.Models.Entities.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Models.Entities.InternshipTerm", b =>
                 {
                     b.Navigation("Contacts");
                 });
 
             modelBuilder.Entity("Backend.Models.Entities.Organization", b =>
                 {
-                    b.Navigation("InternshipPeriods");
+                    b.Navigation("InternshipTerms");
                 });
 #pragma warning restore 612, 618
         }

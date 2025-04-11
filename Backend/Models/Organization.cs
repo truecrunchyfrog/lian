@@ -11,8 +11,7 @@ namespace Backend.Models.Entities
     public Dto.Organization ToDto() => new Dto.Organization
       {
         Id = Id,
-        Name = Name,
-        InternshipPeriods = InternshipTerms.Select(p => p.ToDto())
+        Name = Name
       };
   }
 }
@@ -23,6 +22,5 @@ namespace Backend.Models.Dto
   {
     public int Id { get; set; }
     public required string Name { get; set; }
-    public required IEnumerable<InternshipTerm> InternshipPeriods { get; set; }
   }
 }
