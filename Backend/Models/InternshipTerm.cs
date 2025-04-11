@@ -10,7 +10,7 @@ namespace Backend.Models.Entities
     public ICollection<Tag> Tags { get; set; } = [];
 
     public bool IsRelevant =>
-      DateOnly.FromDateTime(DateTime.Now) < ApplicationPeriod.End;
+      DateOnly.FromDateTime(DateTime.Today) < ApplicationPeriod.End;
 
     public Dto.InternshipTerm ToDto() => new Dto.InternshipTerm
       {
