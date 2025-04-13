@@ -10,14 +10,25 @@ export async function getOrganizations() {
   return axiosClient.get('organizations')
 }
 
-export async function getInternshipTerms(tagIds) {
-  return axiosClient.get('internshipterms', { params: { tagIds: tagIds } })
+const queryOptionsToParams = queryOptions => {
+    return {
+      tagIds: queryOptions.filter(option => option.type === 'tag').map(option => option.propertyId),
+      orgIds: queryOptions.filter(option => option.type === 'org').map(option => option.propertyId)
+    }
+  }
+
+export async function getInternshipPositions(queryOptions) {
+  return axiosClient.get('internshippositions', { params: queryOptionsToParams(queryOptions) })
 }
 
-export async function countInternshipTerms(tagIds) {
-  return axiosClient.get('internshipterms/count', tagIds)
+export async function countInternshipPositions(queryOptions) {
+  return axiosClient.get('internshippositions/count', { params: queryOptionsToParams(queryOptions) })
 }
 
 export async function getTags() {
   return axiosClient.get('tags')
+}
+
+export async function getSearchQueryOptions() {
+  return axiosClient.get('search')
 }

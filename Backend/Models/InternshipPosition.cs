@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Backend.Models.Entities
 {
-  public class InternshipTerm : IntoDto<Dto.InternshipTerm>
+  public class InternshipPosition : IntoDto<Dto.InternshipPosition>
   {
     public int Id { get; set; }
     public required Organization Organization { get; set; }
@@ -12,7 +14,7 @@ namespace Backend.Models.Entities
     public bool IsRelevant =>
       DateOnly.FromDateTime(DateTime.Today) < ApplicationPeriod.End;
 
-    public Dto.InternshipTerm ToDto() => new Dto.InternshipTerm
+    public Dto.InternshipPosition ToDto() => new Dto.InternshipPosition
       {
         Id = Id,
         Organization = Organization.ToDto(),
@@ -22,11 +24,26 @@ namespace Backend.Models.Entities
         Tags = Tags.Select(t => t.ToDto())
       };
   }
+
+  public static class InternshipPositionExtensions
+  {
+    public static IQueryable<InternshipPosition> FilterInternshipPositions(
+        this IQueryable<InternshipPosition> all,
+        IEnumerable<int> tagIds,
+        IEnumerable<int> orgIds) =>
+      all
+      .Include(it => it.Organization)
+      .Include(it => it.Tags)
+      .Where(it =>
+          (tagIds.Count() == 0 && orgIds.Count() == 0) ||
+          it.Tags.Select(t => t.Id).Intersect(tagIds).Any() ||
+          orgIds.Contains(it.Organization.Id));
+  }
 }
 
 namespace Backend.Models.Dto
 {
-  public class InternshipTerm
+  public class InternshipPosition
   {
     public int Id { get; set; }
     public required Organization Organization { get; set; }

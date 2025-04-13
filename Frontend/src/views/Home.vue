@@ -1,22 +1,28 @@
 <script setup>
   import { useSeoMeta } from '@unhead/vue'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import * as api from '../components/api.js'
-  import 'vue-select/dist/vue-select.css'
+  import SearchInput from '../components/SearchInput.vue'
 
   useSeoMeta({
     description: 'Hitta din praktikplats med Lian!'
   })
 
-  const loading = ref(false)
-  const selectedTagsInternshipTermCount = ref(null)
+  const selectedOptions = ref([])
+  const selectedOptionsAsQuery = computed(() => {
+    return {
+      t: selectedOptions.value.filter(opt => opt.type === 'tag').map(opt => opt.propertyId),
+      o: selectedOptions.value.filter(opt => opt.type === 'org').map(opt => opt.propertyId)
+    }
+  })
+  const selectedOptionsPositionCount = ref(null)
 
-  const fetchTermCount = () => {
-    if (selectedTags.value.length)
-      api.countInternshipTerms(selectedTags.value.map(t => t.id))
-        .then(r => selectedTagsInternshipTermCount.value = r.data)
+  const fetchPositionCount = () => {
+    if (selectedOptions.value.length)
+      api.countInternshipPositions(selectedOptions.value)
+        .then(r => selectedOptionsPositionCount.value = r.data)
     else
-      selectedTagsInternshipTermCount.value = null
+      selectedOptionsPositionCount.value = null
   }
 </script>
 
@@ -27,12 +33,14 @@
       <img src="/src/assets/logos/fit.svg" alt="Lian" />
     </h5>
 
-    <router-link :to="{ path: 'platser', query: { t: selectedTags.map(t => t.id) } }">
+    <SearchInput v-model="selectedOptions" @input="fetchPositionCount" />
+
+    <router-link :to="{ path: 'platser', query: selectedOptionsAsQuery }">
       <button class="button">
-        <span v-if="selectedTagsInternshipTermCount != null">
+        <span v-if="selectedOptionsPositionCount != null">
           Sök
-          {{ selectedTagsInternshipTermCount }}
-          plats<span v-show="selectedTagsInternshipTermCount !== 1">er</span>
+          {{ selectedOptionsPositionCount }}
+          plats<span v-show="selectedOptionsPositionCount !== 1">er</span>
         </span>
         <span v-else>
           Leta bland allt

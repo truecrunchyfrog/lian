@@ -3,6 +3,7 @@ using System;
 using Backend;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(BackendContext))]
-    partial class BackendContextModelSnapshot : ModelSnapshot
+    [Migration("20250412133931_Rename_InternshipTerm_InternshipPosition")]
+    partial class Rename_InternshipTerm_InternshipPosition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
@@ -125,13 +128,13 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("InternshipPositionTag", b =>
                 {
-                    b.Property<int>("InternshipPositionsId")
+                    b.Property<int>("InternshipTermsId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TagsId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("InternshipPositionsId", "TagsId");
+                    b.HasKey("InternshipTermsId", "TagsId");
 
                     b.HasIndex("TagsId");
 
@@ -154,7 +157,7 @@ namespace Backend.Migrations
                         .IsRequired();
 
                     b.HasOne("Backend.Models.Entities.Organization", "Organization")
-                        .WithMany("InternshipPositions")
+                        .WithMany("InternshipTerms")
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -176,7 +179,7 @@ namespace Backend.Migrations
                 {
                     b.HasOne("Backend.Models.Entities.InternshipPosition", null)
                         .WithMany()
-                        .HasForeignKey("InternshipPositionsId")
+                        .HasForeignKey("InternshipTermsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -194,7 +197,7 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.Entities.Organization", b =>
                 {
-                    b.Navigation("InternshipPositions");
+                    b.Navigation("InternshipTerms");
                 });
 #pragma warning restore 612, 618
         }

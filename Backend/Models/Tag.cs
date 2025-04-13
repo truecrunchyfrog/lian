@@ -4,13 +4,13 @@ namespace Backend.Models.Entities
   {
     public int Id { get; set; }
     public required string Name { get; set; }
-    public ICollection<InternshipTerm> InternshipTerms { get; set; } = [];
+    public ICollection<InternshipPosition> InternshipPositions { get; set; } = [];
 
     public Dto.Tag ToDto() => new Dto.Tag
       {
         Id = Id,
         Name = Name,
-        TermsWithTag = InternshipTerms.Where(it => it.IsRelevant).Count()
+        PositionsWithTag = InternshipPositions.Where(it => it.IsRelevant).Count()
       };
   }
 }
@@ -21,6 +21,6 @@ namespace Backend.Models.Dto
   {
     public int Id { get; set; }
     public required string Name { get; set; }
-    public int TermsWithTag { get; set; }
+    public int PositionsWithTag { get; set; }
   }
 }
